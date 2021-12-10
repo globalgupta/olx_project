@@ -20,5 +20,5 @@ const ejs = require('ejs');
 app.set('view engine', 'ejs');
 
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 app.listen(port, (err) => console.log(`Server is listening at port: ${port}`));

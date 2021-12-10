@@ -166,8 +166,8 @@ exports.switchPage = ((req, res) => {
         const limit = 8;
 
         let skip = (limit * page) - limit;
-        console.log(skip)  //test
-        console.log(limit)  //test
+        //console.log(skip)  //test
+        //console.log(limit)  //test
 
         itemCollection.find({}, null, { skip: skip, limit: limit }, (err, data) => {
 
