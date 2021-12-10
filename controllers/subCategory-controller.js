@@ -2,7 +2,7 @@ const subCategoryCollection = require('../models/subCategory-schema');
 
 exports.subCategory = ((req, res) => {
     try {
-        console.log(req.params.c_id)
+        console.log(req.params.c_id)  //test
         subCategoryCollection.find({ c_id: req.params.c_id }, (err, data) => {
             if (err) {
                 return res.status(400).json({
@@ -19,7 +19,7 @@ exports.subCategory = ((req, res) => {
                     data: data
                 });
             }
-            else if (data) {
+            else {
                 return res.status(404).json({
                     status: 'success',
                     statusCode: 404,

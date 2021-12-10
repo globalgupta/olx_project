@@ -4,6 +4,9 @@ const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 const salt = 15;
 const nodemailer = require('nodemailer');
+const ejs = require('ejs');
+//const { route } = require('../routes/user-routes');
+
 
 
 exports.register = [
@@ -181,70 +184,43 @@ exports.login = [
     }];
 
 
-// exports.edit = ((req, res) => {
-//     try {
-//         userCollection.findOne({ email }, (err, user) => {
-//             if (err || !user) {
-//                 return res.status(400).json({
-//                     status: 'failed',
-//                     statusCode: 400,
-//                     message: 'email does not exists'
-//                 });
-//             }
-//             else {
-//                 userCollection.findById(req.params.id, (err1, data) => {
-//                     if (err1) {
-//                         res.status(400).json({
-//                             status: 'failed',
-//                             statusCode: 400,
-//                             message: 'unable to find user'
-//                         });
-//                         return;
-//                     }
-//                     if (data) {
-//                         res.send({
-//                             message: 'please type new password'
-//                         });
-//                     }
-//                     return;
-//                 });
-//             }
-//         });
-//     }
-//     catch (err) {
-//         return res.status(500).json({
-//             status: 'failed',
-//             statusCode: 500,
-//             message: 'error at catch..'
-//         });
-//     }
-// });
 
-exports.update = ((req, res) => {
+exports.updatePasswordById = ((req, res) => {
     try {
         console.log(req.params.id)  //test
 
-        userCollection.findByIdAndUpdate(req.params.id, { password: req.body.password }, (err, data) => {
-            console.log('helllooo', req.body.password); //test
-
-            if (err) {
-                res.status(400).json({
+        bcrypt.hash(req.body.password, salt, (berr, hash) => {
+            if (berr) {
+                res.status(500).json({
                     status: 'failed',
-                    statusCode: 400,
-                    message: 'error at password change'
+                    statusCode: 500,
+                    message: 'error at bcrypt..'
                 });
                 return;
             }
-            if (data) {
-                console.log('heyyyy', data)
-                return res.status(200).json({
-                    status: 'success',
-                    statusCode: 200,
-                    message: 'password changed successfully',
-                    data: data
+            if (hash) {
+                userCollection.findByIdAndUpdate(req.params.id, { password: hash }, (err, data) => {
+                    if (err) {
+                        res.status(400).json({
+                            status: 'failed',
+                            statusCode: 400,
+                            message: 'error at password change'
+                        });
+                        return;
+                    }
+                    if (data) {
+                        console.log('heyyyy', data)
+                        return res.status(200).json({
+                            status: 'success',
+                            statusCode: 200,
+                            message: 'password changed successfully',
+                            data: data
+                        });
+                    }
                 });
             }
         });
+
     }
     catch (err) {
         return res.status(500).json({
@@ -282,11 +258,11 @@ exports.forgotPassword = [
                     });
 
                     // generating the link for the email
-                    let url = '<a href="http://' + req.headers.host + '/pass/' + req.body.email + '">http://' + req.headers.host + '/pass' + req.body.email + '</a>';
+                    let url = '<a href="http://' + req.headers.host + '/auth/pass' + '">http://' + req.headers.host + '/pass' + '</a>';
                     console.log("url", url);
 
                     transport.sendMail({
-                        from: 'ramm00324@gmail.com', // sender address
+                        from: 'guptajeehere@gmail.com', // sender address
                         to: req.body.email, // list of receivers                    
                         text: 'Hello world ?', // plaintext body
                         html: '<p>We just acknowledged that you have requested to change your account password. You can change your password by clicking on the link below.</p>' + url + '<p>If you did not make this request. Please ignore this email.</p>'
@@ -299,7 +275,7 @@ exports.forgotPassword = [
                 else {
                     return res.status(400).json({
                         status: 400,
-                        message: "email not found"
+                        message: "email is not registered"
                     });
                 }
             });
@@ -314,14 +290,57 @@ exports.forgotPassword = [
     }];
 
 exports.pass = ((req, res) => {
+    console.log('hey', res);  //test
     // rendering ejs file                
     ejs.renderFile('./password.ejs', {}, {}, function (err, template) {
-        if (err) {
-            throw err;
-        }
-        else // on success
-        {
-            res.end(template);
-        }
+        if (err) throw err;
+        
+        else res.end(template);
+        
     });
+});
+
+
+exports.updatePasswordByEmail = ((req, res) => {
+    try {
+        console.log(req.body.email)  //test
+
+        bcrypt.hash(req.body.password, salt, (berr, hash) => {
+            if (berr) {
+                res.status(500).json({
+                    status: 'failed',
+                    statusCode: 500,
+                    message: 'error at bcrypt..'
+                });
+                return;
+            }
+            if (hash) {
+                userCollection.findOneAndUpdate({ email: req.body.email }, { password: hash }, (err, data) => {
+
+                    if (err) {
+                        res.status(400).json({
+                            status: 'failed',
+                            statusCode: 400,
+                            message: 'error at password change'
+                        });
+                        return;
+                    }
+                    if (data) {
+                        ejs.renderFile('./sucess.ejs', {}, {}, function (err, template) {
+                            if (err) throw err;
+
+                            else res.end(template);
+                        });
+                    }
+                });
+            }
+        });
+    }
+    catch (err) {
+        return res.status(500).json({
+            status: 'failed',
+            statusCode: 500,
+            message: 'error at catch..'
+        });
+    }
 });

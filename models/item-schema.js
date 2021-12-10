@@ -1,4 +1,10 @@
 const mongoose = require('mongoose');
+//const moment = require('moment-timezone');
+
+const epoch = Math.floor(new Date().getTime()/1000.0);
+//console.log(epoch)
+
+
 const refData = mongoose.Schema({
     title: {
         type: String,
@@ -14,7 +20,7 @@ const refData = mongoose.Schema({
     },
     image: {
         type: Array,
-        default: [] 
+        default: []
     },
     state: {
         type: String,
@@ -25,12 +31,12 @@ const refData = mongoose.Schema({
         required: true
     },
     created_at: {
-        type: Date,
-        default: new Date()
+        type: String,
+        default: epoch
     },
     updated_at: {
-        type: Date,
-        default: new Date()
+        type: String,
+        default: epoch
     }
 });
 

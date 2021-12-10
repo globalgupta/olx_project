@@ -16,6 +16,9 @@ app.use('/auth', userRoutes);
 const path = require('path');
 app.use('/', express.static(path.join(__dirname, 'public')));
 
+const ejs = require('ejs');
+app.set('view engine', 'ejs');
+
 
 const port = 3000;
 app.listen(port, (err) => console.log(`Server is listening at port: ${port}`));
