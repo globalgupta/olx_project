@@ -1,7 +1,7 @@
 const itemCollection = require('../models/item-schema');
 
 exports.itemSchema = ((req, res) => {
-    console.log(req.body)  //test
+    console.log(req.body);  //test
     try {
         console.log(req.files);  //test
 
