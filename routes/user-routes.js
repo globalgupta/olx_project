@@ -50,6 +50,7 @@ router.post('/updateByEmail', userController.updatePasswordByEmail);  //update v
 router.post('/forgotPassword', userController.forgotPassword);
 router.get('/pass', userController.pass);
 router.get('/getProfile/:id', validate, userController.getProfile);
+router.post('/delAccount/:id', validate, userController.delAccount);
 
 
 
