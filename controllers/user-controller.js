@@ -375,3 +375,31 @@ exports.getProfile = ((req, res) => {
         });
     }
 });
+
+exports.delAccount = ((req, res) => {
+    try {
+        userCollection.findByIdAndDelete({ _id: req.params.id }, (err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    status: 'failed',
+                    statusCode: 400,
+                    message: 'something went wrong, please try again'
+                });
+            }
+            else if (result) {
+                res.status(200).json({
+                    status: 'success',
+                    statusCode: 200,
+                    message: 'account deleted successfully'
+                });
+            }
+        });
+    }
+    catch (err) {
+        return res.status(500).json({
+            status: 'failed',
+            statusCode: 500,
+            message: 'error at catch..'
+        });
+    }
+});

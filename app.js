@@ -19,6 +19,11 @@ app.use('/', express.static(path.join(__dirname, 'public')));
 const ejs = require('ejs');
 app.set('view engine', 'ejs');
 
+//firebase
+
+
+
+//firebase
 
 const port = process.env.PORT || 3000;
 app.listen(port, (err) => console.log(`Server is listening at port: ${port}`));
