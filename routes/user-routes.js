@@ -49,6 +49,7 @@ router.post('/updateById/:id', userController.updatePasswordById);  //update via
 router.post('/updateByEmail', userController.updatePasswordByEmail);  //update via email
 router.post('/forgotPassword', userController.forgotPassword);
 router.get('/pass', userController.pass);
+router.get('/getProfile/:id', validate, userController.getProfile);
 
 
 

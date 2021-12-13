@@ -25,7 +25,7 @@ exports.itemSchema = ((req, res) => {
                 res.status(500).json({
                     status: 'failed',
                     statusCode: 500,
-                    messege: 'error at addItem',
+                    messege: 'Oops! Something went wrong, TRY AGAIN',
                 });
             }
             else if (data) {

@@ -294,9 +294,9 @@ exports.pass = ((req, res) => {
     // rendering ejs file                
     ejs.renderFile('./password.ejs', {}, {}, function (err, template) {
         if (err) throw err;
-        
+
         else res.end(template);
-        
+
     });
 });
 
@@ -333,6 +333,37 @@ exports.updatePasswordByEmail = ((req, res) => {
                         });
                     }
                 });
+            }
+        });
+    }
+    catch (err) {
+        return res.status(500).json({
+            status: 'failed',
+            statusCode: 500,
+            message: 'error at catch..'
+        });
+    }
+});
+
+
+exports.getProfile = ((req, res) => {
+    try {
+        userCollection.findOne({ _id: req.params.id }, (err, data) => {
+            if (err) {
+                return res.status(400).json({
+                    status: 'failed',
+                    statusCode: 400,
+                    message: 'error at fetching profile..'
+                });
+            }
+            else if (data) {
+                res.status(200).json({
+                    status: 'success',
+                    statusCode: 200,
+                    message: 'profile fetched successfully..',
+                    data: data
+                });
+                return;
             }
         });
     }
