@@ -67,7 +67,7 @@ exports.listItem = ((req, res) => {
                 });
                 return
             }
-        });
+        }).sort({ _id: -1 });
     }
     catch (err) {
         return res.status(500).json({
@@ -186,7 +186,7 @@ exports.switchPage = ((req, res) => {
                     data: data
                 });
             }
-        }).sort({ created_at: -1 });
+        }).sort({_id: -1});
     }
     catch (err) {
         return res.status(500).json({
