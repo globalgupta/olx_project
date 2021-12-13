@@ -67,7 +67,7 @@ exports.listItem = ((req, res) => {
                 });
                 return
             }
-        });
+        }).sort({created_at: -1});
     }
     catch (err) {
         return res.status(500).json({

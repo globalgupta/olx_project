@@ -52,7 +52,7 @@ exports.register = [
                                     status: 'failed',
                                     statusCode: 500,
                                     messege: err.message
-                                });
+                                }); 
                             }
                             else if (data) {
 
@@ -387,18 +387,12 @@ exports.delAccount = ((req, res) => {
                 });
             }
             else if (result) {
-                return res.status(200).json({
+                res.status(200).json({
                     status: 'success',
                     statusCode: 200,
                     message: 'account deleted successfully'
                 });
-            }
-            else {
-                return res.status(403).json({
-                    status: 'failed',
-                    statusCode: 403,
-                    message: 'something went wrong'
-                });
+                return;
             }
         });
     }
