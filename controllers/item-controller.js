@@ -1,7 +1,7 @@
 const itemCollection = require('../models/item-schema');
 
 exports.itemSchema = ((req, res) => {
-    console.log(req.body);  //test
+    console.log(req.body)  //test
     try {
         console.log(req.files);  //test
 
@@ -25,7 +25,7 @@ exports.itemSchema = ((req, res) => {
                 res.status(500).json({
                     status: 'failed',
                     statusCode: 500,
-                    messege: 'Oops! Something went wrong, TRY AGAIN',
+                    messege: 'error at addItem',
                 });
             }
             else if (data) {
@@ -186,7 +186,7 @@ exports.switchPage = ((req, res) => {
                     data: data
                 });
             }
-        }).sort({_id: -1});
+        }).sort({ _id: -1 });
     }
     catch (err) {
         return res.status(500).json({
