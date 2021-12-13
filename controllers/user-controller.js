@@ -387,10 +387,17 @@ exports.delAccount = ((req, res) => {
                 });
             }
             else if (result) {
-                res.status(200).json({
+                return res.status(200).json({
                     status: 'success',
                     statusCode: 200,
                     message: 'account deleted successfully'
+                });
+            }
+            else {
+                return res.status(403).json({
+                    status: 'failed',
+                    statusCode: 403,
+                    message: 'something went wrong'
                 });
             }
         });
