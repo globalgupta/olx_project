@@ -51,6 +51,8 @@ router.post('/forgotPassword', userController.forgotPassword);
 router.get('/pass', userController.pass);
 router.get('/getProfile/:id', validate, userController.getProfile);
 router.delete('/delAccount/:id', validate, userController.delAccount);
+router.post('/editProfile/:id', validate, userController.editProfile);
+router.post('/updateProfile/:id', validate, userController.updateProfile);
 
 
 

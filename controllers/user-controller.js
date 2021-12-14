@@ -52,7 +52,7 @@ exports.register = [
                                     status: 'failed',
                                     statusCode: 500,
                                     messege: err.message
-                                }); 
+                                });
                             }
                             else if (data) {
 
@@ -404,3 +404,76 @@ exports.delAccount = ((req, res) => {
         });
     }
 });
+
+
+exports.editProfile = ((req, res) => {
+    try {
+        userCollection.findById(req.params.id, (err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    status: 'failed',
+                    statusCode: 400,
+                    message: 'unable to edit the profile'
+                });
+            }
+            else if (result) {
+                return res.status(200).json({
+                    status: 'success',
+                    statusCode: 200,
+                    message: 'please update the required fields'
+                });
+            }
+            else {
+                return res.status(403).json({
+                    status: 'failed',
+                    statusCode: 403,
+                    message: 'something wemt wrong, please try again'
+                });
+            }
+        });
+    }
+    catch (err) {
+        return res.status(500).json({
+            status: 'failed',
+            statusCode: 500,
+            message: 'error at catch..'
+        });
+    }
+});
+
+
+exports.updateProfile = ((req, res) => {
+    try {
+        userCollection.findByIdAndUpdate(req.params.id, { name: req.body.name, phone: req.body.phone, email: req.body.email }, (err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    status: 'failed',
+                    statusCode: 400,
+                    message: 'unable to update the profile'
+                });
+            }
+            else if (result) {
+                return res.status(200).json({
+                    status: 'success',
+                    statusCode: 200,
+                    message: 'profile updated successfully'
+                });
+            }
+            else {
+                return res.status(403).json({
+                    status: 'failed',
+                    statusCode: 403,
+                    message: 'something wemt wrong, please try again'
+                });
+            }
+        });
+    }
+    catch (err) {
+        return res.status(500).json({
+            status: 'failed',
+            statusCode: 500,
+            message: 'error at catch..'
+        });
+    }
+});
+
