@@ -65,7 +65,7 @@ exports.register = [
                                         console.log('jerr', jerr)
                                         return res.status(400).json({
                                             status: 'failed',
-                                            statusCode: 400,
+                                           statusCode: 400,
                                             messege: 'error at token'
                                         });
                                     }
