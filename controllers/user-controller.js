@@ -12,7 +12,7 @@ const ejs = require('ejs');
 exports.register = [
     body('name').exists().notEmpty().isLength({ min: 4, max: 20 }).trim().withMessage('name must be min 6 and max 20 in lengths'),
     body('phone').exists().notEmpty().isLength({ min: 10, max: 13 }).trim().withMessage('phone must be min 10 and max 13 in lengths'),
-    body('email').isEmail().withMessage('email must be a valid id'),
+    body('email').notEmpty().isEmail().trim().exists().withMessage('email required and must be a valid email'),
     body('password').trim().exists().isLength({ min: 6 }).withMessage('password is required and must be 6 in lengths or above'),
     (req, res) => {
         try {
@@ -94,7 +94,6 @@ exports.register = [
             });
         }
     }];
-
 
 exports.login = [
     body('email').isEmail().withMessage('email must be a valid id'),
@@ -182,8 +181,6 @@ exports.login = [
             });
         }
     }];
-
-
 
 exports.updatePasswordById = ((req, res) => {
     try {
@@ -300,7 +297,6 @@ exports.pass = ((req, res) => {
     });
 });
 
-
 exports.updatePasswordByEmail = ((req, res) => {
     try {
         console.log(req.body.email)  //test
@@ -344,7 +340,6 @@ exports.updatePasswordByEmail = ((req, res) => {
         });
     }
 });
-
 
 exports.getProfile = ((req, res) => {
     try {
@@ -406,45 +401,45 @@ exports.delAccount = ((req, res) => {
 });
 
 
-exports.editProfile = ((req, res) => {
-    try {
-        userCollection.findById(req.params.id, (err, result) => {
-            if (err) {
-                return res.status(400).json({
-                    status: 'failed',
-                    statusCode: 400,
-                    message: 'unable to edit the profile'
-                });
-            }
-            else if (result) {
-                return res.status(200).json({
-                    status: 'success',
-                    statusCode: 200,
-                    message: 'please update the required fields'
-                });
-            }
-            else {
-                return res.status(403).json({
-                    status: 'failed',
-                    statusCode: 403,
-                    message: 'something wemt wrong, please try again'
-                });
-            }
-        });
-    }
-    catch (err) {
-        return res.status(500).json({
-            status: 'failed',
-            statusCode: 500,
-            message: 'error at catch..'
-        });
-    }
-});
+// exports.editProfile = ((req, res) => {
+//     try {
+//         userCollection.findById(req.params.id, (err, result) => {
+//             if (err) {
+//                 return res.status(400).json({
+//                     status: 'failed',
+//                     statusCode: 400,
+//                     message: 'unable to edit the profile'
+//                 });
+//             }
+//             else if (result) {
+//                 return res.status(200).json({
+//                     status: 'success',
+//                     statusCode: 200,
+//                     message: 'please update the required fields'
+//                 });
+//             }
+//             else {
+//                 return res.status(403).json({
+//                     status: 'failed',
+//                     statusCode: 403,
+//                     message: 'something wemt wrong, please try again'
+//                 });
+//             }
+//         });
+//     }
+//     catch (err) {
+//         return res.status(500).json({
+//             status: 'failed',
+//             statusCode: 500,
+//             message: 'error at catch..'
+//         });
+//     }
+// });
 
 
 exports.updateProfile = ((req, res) => {
     try {
-        userCollection.findByIdAndUpdate(req.params.id, { name: req.body.name, phone: req.body.phone, email: req.body.email }, (err, result) => {
+        userCollection.findByIdAndUpdate(req.params.id, { name: req.body.name, phone: req.body.phone, email: req.body.email, bio: req.body.bio }, (err, result) => {
             if (err) {
                 return res.status(400).json({
                     status: 'failed',

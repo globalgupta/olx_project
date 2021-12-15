@@ -3,6 +3,8 @@ const router = express.Router();
 //global.router = router;
 const validate = require('../middlewares/authorization');
 
+
+
 const fs = require('fs');
 var multer = require("multer");
 
@@ -26,6 +28,10 @@ var storage = multer.diskStorage({
 
 
 const upload = multer({ storage: storage, limits: 1000000 });
+
+const uploadFile =  require('../firebase/firebase');
+
+const uploads = multer({ storage: multer.memoryStorage() });
 
 const userController = require('../controllers/user-controller');
 const categoryController = require('../controllers/category-controller');
@@ -51,10 +57,12 @@ router.post('/forgotPassword', userController.forgotPassword);
 router.get('/pass', userController.pass);
 router.get('/getProfile/:id', validate, userController.getProfile);
 router.delete('/delAccount/:id', validate, userController.delAccount);
-router.post('/editProfile/:id', validate, userController.editProfile);
+//router.post('/editProfile/:id', validate, userController.editProfile);
 router.post('/updateProfile/:id', validate, userController.updateProfile);
 
 
+
+router.post('/uploadFile', uploads.single('file'), uploadFile.uploadFile);
 
 
 

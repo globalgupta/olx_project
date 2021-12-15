@@ -22,7 +22,6 @@ app.set('view engine', 'ejs');
 //firebase
 
 
-
 //firebase
 
 const port = process.env.PORT || 3000;

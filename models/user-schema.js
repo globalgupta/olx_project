@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const refData = mongoose.Schema({
     name: String,
     phone: {
@@ -10,7 +11,14 @@ const refData = mongoose.Schema({
         unique: true
     },
     password: String,
-    about_me: String
+    picture: {
+        type: String,
+        nullable: true
+    },
+    bio: {
+        type: String,
+        nullable: true
+    }
 });
 
 //module.exports = mongoose.model('users', refData);

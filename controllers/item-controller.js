@@ -3,13 +3,14 @@ const itemCollection = require('../models/item-schema');
 exports.itemSchema = ((req, res) => {
     console.log(req.body)  //test
     try {
+        console.log('test')  //test
         console.log(req.files);  //test
 
         const arr = [];
         req.files.forEach((file) => {
             arr.push(`uploads/${file.filename}`);
         });
-
+        //console.log('heeeee', image)
         const refItemCollection = new itemCollection({
             title: req.body.title,
             description: req.body.description,
@@ -18,6 +19,7 @@ exports.itemSchema = ((req, res) => {
             state: req.body.state,
             city: req.body.city
         });
+
         console.log(refItemCollection);  //test
 
         refItemCollection.save((err, data) => {
@@ -39,6 +41,7 @@ exports.itemSchema = ((req, res) => {
         });
     }
     catch (err) {
+        console.log("error", err);
         return res.status(500).json({
             status: 'failed',
             statusCode: 500,
@@ -46,7 +49,6 @@ exports.itemSchema = ((req, res) => {
         });
     }
 });
-
 
 exports.listItem = ((req, res) => {
     try {
@@ -118,7 +120,6 @@ exports.listItemBySubCategory = ((req, res) => {
     }
 });
 
-
 exports.listItemByAddItemId = ((req, res) => {
     try {
         console.log('addItemid', req.params.i_id)  //test
@@ -158,7 +159,6 @@ exports.listItemByAddItemId = ((req, res) => {
         });
     }
 });
-
 
 exports.switchPage = ((req, res) => {
     try {
