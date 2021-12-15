@@ -132,7 +132,7 @@ exports.login = [
                         return res.status(400).json({
                             status: 'failed',
                             statusCode: 400,
-                            messege: err.message
+                            messege: 'login failed'
                         });
                     }
                     else if (data) {
@@ -143,7 +143,7 @@ exports.login = [
                                 return res.status(400).json({
                                     status: 'failed',
                                     statusCode: 400,
-                                    messege: err.message
+                                    messege: 'password not macthed'
                                 });
                             }
                             else if (bdata) {
