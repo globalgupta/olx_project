@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 const refData = mongoose.Schema({
     name: String,
     phone: {
-        type: String,
-        unique: true
+        type: String
     },
     email: {
         type: String,
