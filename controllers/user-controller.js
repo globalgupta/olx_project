@@ -41,62 +41,74 @@ exports.register = [
                         });
                     }
                     else {
-                        //userCollection.findOne({email})
-                        bcrypt.hash(req.body.password, salt, (berr, hash) => {
-                            if (berr) {
-                                res.status(400).json({
+                        userCollection.findOne({ phone: req.body.phone }, (gerr, phone) => {
+                            if (phone) {
+                                return res.status(422).json({
                                     status: 'failed',
-                                    statusCode: 400,
-                                    messege: 'error at bcrypt'
+                                    statusCode: 422,
+                                    messege: 'phone number is already exist'
                                 });
                             }
-                            else if (hash) {
-                                const refCollection = new userCollection({
-                                    name: req.body.name,
-                                    phone: req.body.phone,
-                                    email: req.body.email,
-                                    password: hash,
-                                });
-                                refCollection.save((err, data) => {
-                                    //console.log(err)
-                                    if (err) {
-                                        console.log('err', err)
-                                        res.status(500).json({
+                            else {
+                                //userCollection.findOne({email})
+                                bcrypt.hash(req.body.password, salt, (berr, hash) => {
+                                    if (berr) {
+                                        res.status(400).json({
                                             status: 'failed',
-                                            statusCode: 500,
-                                            messege: err.message
+                                            statusCode: 400,
+                                            messege: 'error at bcrypt'
                                         });
                                     }
-                                    else if (data) {
-
-                                        userData = { userId: data._id, email: data.email }
-
-                                        jwt.sign(userData, 'secret', (jerr, result) => {
-                                            if (jerr) {
-                                                console.log('jerr', jerr)
-                                                return res.status(400).json({
+                                    else if (hash) {
+                                        const refCollection = new userCollection({
+                                            name: req.body.name,
+                                            phone: req.body.phone,
+                                            email: req.body.email,
+                                            password: hash,
+                                        });
+                                        refCollection.save((err, data) => {
+                                            //console.log(err)
+                                            if (err) {
+                                                console.log('err', err)
+                                                res.status(500).json({
                                                     status: 'failed',
-                                                    statusCode: 400,
-                                                    messege: 'error at token'
+                                                    statusCode: 500,
+                                                    messege: err.message
                                                 });
                                             }
-                                            else if (result) {
-                                                res.status(200).json({
-                                                    status: 'success',
-                                                    statusCode: 200,
-                                                    messege: 'user successfully registered',
-                                                    token: result
+                                            else if (data) {
+
+                                                userData = { userId: data._id, email: data.email }
+
+                                                jwt.sign(userData, 'secret', (jerr, result) => {
+                                                    if (jerr) {
+                                                        console.log('jerr', jerr)
+                                                        return res.status(400).json({
+                                                            status: 'failed',
+                                                            statusCode: 400,
+                                                            messege: 'error at token'
+                                                        });
+                                                    }
+                                                    else if (result) {
+                                                        res.status(200).json({
+                                                            status: 'success',
+                                                            statusCode: 200,
+                                                            messege: 'user successfully registered',
+                                                            token: result
+                                                        });
+                                                        return;
+                                                    }
                                                 });
-                                                return;
                                             }
+
                                         });
                                     }
-
                                 });
+
                             }
                         });
-
                     }
+
                 });
             }
 
@@ -143,7 +155,7 @@ exports.login = [
                                 return res.status(400).json({
                                     status: 'failed',
                                     statusCode: 400,
-                                    messege: 'password not macthed'
+                                    messege: err.message
                                 });
                             }
                             else if (bdata) {
