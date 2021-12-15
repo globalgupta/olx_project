@@ -12,7 +12,9 @@ const ejs = require('ejs');
 exports.register = [
     body('name').exists().notEmpty().isLength({ min: 4, max: 20 }).trim().withMessage('name must be min 6 and max 20 in lengths'),
     body('phone').exists().notEmpty().isLength({ min: 10, max: 13 }).trim().withMessage('phone must be min 10 and max 13 in lengths'),
-    body('email').notEmpty().isEmail().trim().exists().withMessage('email required and must be a valid email'),
+    //body('email').isEmail().withMessage('email is required and must be a valid email'),
+    body("email").isLength({ min: 1 }).trim().withMessage("email is required.")
+		.isEmail().withMessage("Email must be a valid email address."),
     body('password').trim().exists().isLength({ min: 6 }).withMessage('password is required and must be 6 in lengths or above'),
     (req, res) => {
         try {
@@ -96,7 +98,9 @@ exports.register = [
     }];
 
 exports.login = [
-    body('email').isEmail().withMessage('email must be a valid id'),
+    //body('email').isEmail().withMessage('email is required and must be a valid email'),
+    body("email").isLength({ min: 1 }).trim().withMessage("email is required.")
+        .isEmail().withMessage("Email must be a valid email address."),
     body('password').trim().exists().isLength({ min: 6 }).withMessage('password is required and must be 6 in lengths or above'),
     (req, res) => {
         try {
@@ -439,7 +443,7 @@ exports.delAccount = ((req, res) => {
 
 exports.updateProfile = ((req, res) => {
     try {
-        userCollection.findByIdAndUpdate(req.params.id, { name: req.body.name, phone: req.body.phone, email: req.body.email, bio: req.body.bio }, (err, result) => {
+        userCollection.findByIdAndUpdate(req.params.id, { name: req.body.name, phone: req.body.phone, bio: req.body.bio }, (err, result) => {
             if (err) {
                 return res.status(400).json({
                     status: 'failed',
