@@ -14,7 +14,7 @@ exports.itemSchema = (async (req, res) => {
         // });
         //console.log('heeeee', re)
         let fileName = await firebase.uploadFile(req);
-        //console.log("data", data);
+        console.log("fileName", fileName);
         const refItemCollection = new itemCollection({
             title: req.body.title,
             description: req.body.description,

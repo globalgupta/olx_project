@@ -13,7 +13,7 @@ firebaseAdmin.initializeApp({
 app.locals.bucket = firebaseAdmin.storage().bucket();
 
 exports.uploadFile = async(req) => {
-    console.log(req.file)
+    console.log("file", req.file)
     const fileName = Date.now() + '-' + req.file.originalname;
 
     await app.locals.bucket.file(fileName).createWriteStream().end(req.file.buffer);
