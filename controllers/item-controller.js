@@ -1,21 +1,23 @@
 const itemCollection = require('../models/item-schema');
+const firebase = require('../firebase/firebase');
 
 exports.itemSchema = ((req, res) => {
     console.log(req.body)  //test
     try {
         console.log('test')  //test
-        console.log(req.files);  //test
+        console.log(req.file);  //test
 
-        const arr = [];
-        req.files.forEach((file) => {
-            arr.push(`uploads/${file.filename}`);
-        });
+        // const arr = [];
+        // req.files.forEach((file) => {
+        //     arr.push(`uploads/${file.filename}`);
+        // });
         //console.log('heeeee', image)
+        firebase.uploadFile(req);
         const refItemCollection = new itemCollection({
             title: req.body.title,
             description: req.body.description,
             price: req.body.price,
-            image: arr,
+            image: 'https://firebasestorage.googleapis.com/v0/b/olx-project-72437.appspot.com/o/' + Date.now() + '-' + req.file.originalname + '?alt=media&token=67abc92e-cb6a-4fbd-877a-917934e898da',
             state: req.body.state,
             city: req.body.city
         });
@@ -35,6 +37,7 @@ exports.itemSchema = ((req, res) => {
                     status: 'success',
                     statusCode: 200,
                     messege: 'item added successfully',
+                    data: data
 
                 });
             }

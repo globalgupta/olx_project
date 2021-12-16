@@ -44,14 +44,14 @@ router.post('/register', userController.register);
 router.post('/login', userController.login);
 router.get('/category', validate, categoryController.category);
 router.get('/subCategory/:c_id', validate, subCategoryController.subCategory);
-router.post('/addItem', validate, upload.any(), addItemController.itemSchema);
+router.post('/addItem', validate, uploads.single('image'), addItemController.itemSchema);
 router.post('/like', validate, likeController.like);
 router.get('/listItem', addItemController.listItem);
 router.post('/listItemBySubCategory/:c_id/:s_id', addItemController.listItemBySubCategory);
 router.post('/listItemByAddItemId/:_id', addItemController.listItemByAddItemId);
 router.post('/switchPage/:page', addItemController.switchPage);
 //router.get('/edit/:id', validate, userController.edit);
-router.post('/updateById/:id', userController.updatePasswordById);  //update via id
+router.post('/updateById/:id', validate, userController.updatePasswordById);  //update via id
 router.post('/updateByEmail', userController.updatePasswordByEmail);  //update via email
 router.post('/forgotPassword', userController.forgotPassword);
 router.get('/pass', userController.pass);

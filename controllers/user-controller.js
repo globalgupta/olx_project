@@ -11,7 +11,7 @@ const ejs = require('ejs');
 
 exports.register = [
     body('name').exists().notEmpty().isLength({ min: 4, max: 20 }).trim().withMessage('name must be min 6 and max 20 in lengths'),
-    body('phone').exists().notEmpty().isLength({ min: 10, max: 13 }).trim().withMessage('phone must be min 10 and max 13 in lengths'),
+    body('phone').exists().notEmpty().isLength({ min: 10, max: 13 }).trim().withMessage('phone number must be min 10 and max 13 in lengths'),
     //body('email').isEmail().withMessage('email is required and must be a valid email'),
     body("email").isLength({ min: 1 }).trim().withMessage("email is required.")
         .isEmail().withMessage("Email must be a valid email address."),
