@@ -1,7 +1,8 @@
 const itemCollection = require('../models/item-schema');
 const firebase = require('../firebase/firebase');
 
-exports.itemSchema = ((req, res) => {
+
+exports.itemSchema = (async (req, res) => {
     console.log(req.body)  //test
     try {
         console.log('test')  //test
@@ -11,18 +12,19 @@ exports.itemSchema = ((req, res) => {
         // req.files.forEach((file) => {
         //     arr.push(`uploads/${file.filename}`);
         // });
-        //console.log('heeeee', image)
-        firebase.uploadFile(req);
+        //console.log('heeeee', re)
+        let fileName = await firebase.uploadFile(req);
+        //console.log("data", data);
         const refItemCollection = new itemCollection({
             title: req.body.title,
             description: req.body.description,
             price: req.body.price,
-            image: 'https://firebasestorage.googleapis.com/v0/b/olx-project-72437.appspot.com/o/' + Date.now() + '-' + req.file.originalname + '?alt=media&token=67abc92e-cb6a-4fbd-877a-917934e898da',
+            image: "https://firebasestorage.googleapis.com/v0/b/olx-project-72437.appspot.com/o/" + fileName + "?alt=media",
             state: req.body.state,
             city: req.body.city
         });
 
-        console.log(refItemCollection);  //test
+        //console.log(refItemCollection);  //test
 
         refItemCollection.save((err, data) => {
             if (err) {

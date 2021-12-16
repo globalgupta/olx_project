@@ -18,11 +18,10 @@ exports.uploadFile = async(req) => {
 
     await app.locals.bucket.file(fileName).createWriteStream().end(req.file.buffer);
 
-    //res.send("uploaded");
+    return fileName;
 };
 
 //const upload = ({ storage: multer.memoryStorage() });
 
 
 //module.exports = uploadFile;
-
