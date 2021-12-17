@@ -5,18 +5,17 @@ const bcrypt = require('bcrypt');
 const salt = 15;
 const nodemailer = require('nodemailer');
 const ejs = require('ejs');
-//const { route } = require('../routes/user-routes');
+
 
 
 
 exports.register = [
     body('name').exists().notEmpty().isLength({ min: 4, max: 20 }).trim().withMessage('name must be min 6 and max 20 in lengths'),
     body('phone').exists().notEmpty().isLength({ min: 10, max: 13 }).trim().withMessage('phone number must be min 10 and max 13 in lengths'),
-    //body('email').isEmail().withMessage('email is required and must be a valid email'),
     body("email").isLength({ min: 1 }).trim().withMessage("email is required.")
         .isEmail().withMessage("Email must be a valid email address."),
     body('password').trim().exists().isLength({ min: 6 }).withMessage('password is required and must be 6 in lengths or above'),
-    (req, res) => {
+    (req, res) => { 
         try {
             console.log(req.body)  //test
             const errors = validationResult(req);
@@ -28,7 +27,7 @@ exports.register = [
                     statusCode: 422,
                     messege: errors.array()[0].msg
                 });
-            }
+            }   
             else {
                 userCollection.findOne({ email: req.body.email }, (ferr, email) => {
                     console.log('email', email)  //test
@@ -76,7 +75,7 @@ exports.register = [
                                                     messege: err.message
                                                 });
                                             }
-                                            else if (data) {
+                                            else if (data) {    
 
                                                 userData = { userId: data._id, email: data.email }
 

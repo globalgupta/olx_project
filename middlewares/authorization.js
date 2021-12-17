@@ -11,7 +11,7 @@ const validateToken = (req, res, next) => {
     }
 
     let data = jwt.verify(token, 'secret')
-    //console.log('ramamamamamamam',data)  //test
+    //console.log('ramamamamamamam', data)  //test
     if (!data) {
         res.status(401).json({
             message: 'unauthorized'
@@ -21,7 +21,6 @@ const validateToken = (req, res, next) => {
         req.currentUser = data;
         console.log(req.currentUser)
         next();
-
     }
 }
 
